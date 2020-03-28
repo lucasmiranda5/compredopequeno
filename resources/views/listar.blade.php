@@ -1,6 +1,6 @@
 @extends('template.usuario')
 @section('header')
-<title>Empresas</title>
+<title>Empresas Pirapora</title>
 
 <style>
 

@@ -4,6 +4,7 @@
         border-radius:10px;
         padding: 10px 0px;
     height: 367px;
+    margin-top:5px;
     }
     .card-empresa img{
         max-width:297px;
