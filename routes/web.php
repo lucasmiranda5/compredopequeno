@@ -11,12 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
+Route::get('/',['as' => 'listar','uses' => 'SiteCtrl@listar']);
 
-Route::get('/listar',['as' => 'listar','uses' => 'SiteCtrl@listar']);
+Route::get('/emp/{id}',['as' => 'getEmpresa','uses' => 'SiteCtrl@empresa']);
 
 
  #tipos de servicos

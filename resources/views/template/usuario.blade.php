@@ -35,7 +35,7 @@
 <!-- Site wrapper -->
 <div class="wrapper">
   <div class="container" >
-    <img src="<?=App::make('url')->to('/');?>/resources/assets/topo.png">
+    <a href="<?=App::make('url')->to('/');?>"><img src="<?=App::make('url')->to('/');?>/resources/assets/topo.png"></a>
   </div>
   
   

@@ -3,7 +3,7 @@
         background:#fff;
         border-radius:10px;
         padding: 10px 0px;
-    height: 367px;
+    height: 355px;
     margin-top:5px;
     }
     .card-empresa img{
@@ -87,6 +87,13 @@
         </a>
     </div>
     @endforeach
+
+   <!-- <a href="{{ route('getEmpresa',$empresa['id']) }}">
+    <div class="card-contato">
+        <div class="escrita">+ Informações</div>
+    </div>
+-->
+</a>
 </div>
 </div>
 </div>
