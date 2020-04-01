@@ -65,10 +65,25 @@ class SiteCtrl extends Controller
     }
 
     public function listar($gerarPDF = false){
-       $categorias = Categorias::all();
+        if(Request::input('pesquisa') != ''){
+            $p = Request::input('pesquisa') ;
+            $categorias = Categorias::whereIn('id',Empresas::where('nome','like','%'.$p.'%')->orWhere('descricao','like','%'.$p.'%')->select('categoria')->get()->toArray())->orderBy('nome','ASC')->get();
+        }elseif(Request::input('categoria') != ''){
+            $categorias = Categorias::where('id',Request::input('categoria'))->get();
+        }else{
+            $categorias = Categorias::orderBy('nome','ASC')->get();
+        }
+           
+
+        
+       
        foreach($categorias as $key => $cat){
            $categorias[$key]['quantidade'] = Empresas::where('categoria',$cat['id'])->count();
-           $empresas = Empresas::where('categoria',$cat['id'])->get();
+           if(Request::input('pesquisa') != ''){
+           $empresas = Empresas::where('nome','like','%'.$p.'%')->orWhere('descricao','like','%'.$p.'%')->where('categoria',$cat['id'])->get();
+           }else{
+            $empresas = Empresas::where('categoria',$cat['id'])->get();
+           }
            foreach($empresas as $key2 => $emp){
                $contatos = [];
                foreach(ContatosEmpresas::where('empresa',$emp['id'])->get() as $contato){
@@ -95,10 +110,8 @@ class SiteCtrl extends Controller
            }
            $categorias[$key]['empresas'] = $empresas;
        }
-       if($gerarPDF)
-        \PDF::loadView('listar', compact('categorias'))->download('nome-arquivo-pdf-gerado.pdf');
-       else
-        return view('listar')->with('categorias',$categorias);
+
+        return view('listar')->with('categorias',$categorias)->with('pesquisa',Request::input('pesquisa'));
     }
 
 }
