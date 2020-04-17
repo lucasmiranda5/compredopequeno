@@ -51,6 +51,7 @@
                   </div>
                   <h3>Contatos</h3>
                   @for($x = 1; $x <= 3; $x++)
+                  @if(!empty($contatos[$x]))
                   <div class="row">
                     <div class="col-md-4">
                       <div class="form-group">
@@ -83,6 +84,7 @@
                       </div>
                     </div>
                 </div>
+                @endif
                 @endfor
             @foreach($cidades as $cidade)
               <div class="row">
