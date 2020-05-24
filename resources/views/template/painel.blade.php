@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="<?=App::make('url')->to('/');?>/resources/assets/css/carne.css">
   <link rel="stylesheet" href="<?=App::make('url')->to('/');?>/resources/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
   <link rel="stylesheet" href="<?=App::make('url')->to('/');?>/resources/assets/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="<?=App::make('url')->to('/');?>/resources/assets/plugins/summernote/summernote-bs4.css">
   
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
@@ -52,7 +53,7 @@
                with font-awesome or any other icon font library -->
          
                <li class="nav-item">
-                <a href="{{ route('categorias::listar') }}" class="nav-link">
+                <a href="{{ route('painel::categorias::listar') }}" class="nav-link">
                   <i class="nav-icon fas fa-copy"></i>
                   <p>
                     Categorias
@@ -61,7 +62,7 @@
               </li>
 
               <li class="nav-item">
-                <a href="{{ route('cidades::listar') }}" class="nav-link">
+                <a href="{{ route('painel::cidades::listar') }}" class="nav-link">
                   <i class="nav-icon fas fa-copy"></i>
                   <p>
                     Cidades
@@ -70,10 +71,19 @@
               </li>
 
               <li class="nav-item">
-                <a href="{{ route('empresas::listar') }}" class="nav-link">
+                <a href="{{ route('painel::empresas::listar') }}" class="nav-link">
                   <i class="nav-icon fas fa-copy"></i>
                   <p>
                     Empresas
+                  </p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ route('painel::categoriasProduto::listar') }}" class="nav-link">
+                  <i class="nav-icon fas fa-copy"></i>
+                  <p>
+                    Categorias de Produto
                   </p>
                 </a>
               </li>
@@ -124,6 +134,7 @@
 <script src="<?=App::make('url')->to('/');?>/resources/assets/plugins/inputmask/min/jquery.inputmask.bundle.min.js""></script>
 <script src="<?=App::make('url')->to('/');?>/resources/assets/plugins/jquery.priceformat.min.js"></script>
 <script src="<?=App::make('url')->to('/');?>/resources/assets/plugins/select2/js/select2.min.js"></script>
+<script src="<?=App::make('url')->to('/');?>/resources/assets/plugins/summernote/summernote-bs4.min.js"></script>
 <script>
   $(function(){
     $('.select2').select2();

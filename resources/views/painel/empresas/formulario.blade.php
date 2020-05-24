@@ -51,22 +51,21 @@
                   </div>
                   <h3>Contatos</h3>
                   @for($x = 1; $x <= 3; $x++)
-                  @if(!empty($contatos[$x]))
                   <div class="row">
                     <div class="col-md-4">
                       <div class="form-group">
                         <label>Tipo</label>
                         <select class="form-control tipo" id="{{ $x }}" name="tipo[{{ $x }}]">
-                          <option value="telefone" {{ ( ($acao == 'Editar' and $contatos[$x]['tipo'] == "telefone") ? 'selected' : '') }}>Telefone</option>
-                          <option value="whatsapp" {{ ( ($acao == 'Editar' and $contatos[$x]['tipo'] == "whatsapp") ? 'selected' : '') }}>WhatsApp</option>
-                          <option value="site" {{ ( ($acao == 'Editar' and $contatos[$x]['tipo'] == "site") ? 'selected' : '') }}>Site</option>
+                          <option value="telefone" {{ ( ($acao == 'Editar' and !empty($contatos[$x]) and  $contatos[$x]['tipo'] == "telefone") ? 'selected' : '') }}>Telefone</option>
+                          <option value="whatsapp" {{ ( ($acao == 'Editar' and !empty($contatos[$x]) and $contatos[$x]['tipo'] == "whatsapp") ? 'selected' : '') }}>WhatsApp</option>
+                          <option value="site" {{ ( ($acao == 'Editar' and !empty($contatos[$x]) and $contatos[$x]['tipo'] == "site") ? 'selected' : '') }}>Site</option>
                         </select>
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
                         <label class="labeltxt{{ $x }}">
-                          @if($acao == 'Editar')
+                          @if($acao == 'Editar' and !empty($contatos[$x]) )
                             @if($contatos[$x]['tipo'] == 'telefone') Telefone
                             @elseif($contatos[$x]['tipo'] == 'whatsapp') WhatsApp
                             @else Escrita @endif
@@ -74,17 +73,16 @@
                             Telefone
                           @endif
                         </label>
-                      <input type="text" value="{{ $contatos[$x]['direcionamento'] ?? '' }}" name="direcionamento[{{ $x }}]" class="form-control direcionamento{{$x}} {{ ( ($acao == 'Editar' and $contatos[$x]['tipo'] == "site") ? '' : 'telefone') }} ">
+                      <input type="text" value="{{ $contatos[$x]['direcionamento'] ?? '' }}" name="direcionamento[{{ $x }}]" class="form-control direcionamento{{$x}} {{ ( ($acao == 'Editar' and !empty($contatos[$x]) and $contatos[$x]['tipo'] == "site") ? '' : 'telefone') }} ">
                       </div>
                     </div>
                     <div class="col-md-4">
-                      <div class="form-group link{{ $x }}" style="{{ ( ($acao == 'Editar' and $contatos[$x]['tipo'] == "site") ? '' : 'display:none') }}" >
+                      <div class="form-group link{{ $x }}" style="{{ ( ($acao == 'Editar' and !empty($contatos[$x]) and $contatos[$x]['tipo'] == "site") ? '' : 'display:none') }}" >
                         <label>Link</label>
                         <input type="text" name="link[{{ $x }}]" value="{{ $contatos[$x]['link'] ?? '' }}" class="form-control">
                       </div>
                     </div>
                 </div>
-                @endif
                 @endfor
             @foreach($cidades as $cidade)
               <div class="row">
@@ -110,6 +108,20 @@
               <label>Telefone do Responsavel</label>
               <input type="text" name="telefone_responsavel" class="form-control" value="{{ $retorno['telefone_responsavel'] ?? '' }}">
             </div>
+            <h3>Usuarios para acessar o painel</h3>
+            <div class="form-group">
+              <label>Nome da Pessoa</label>
+              <input type="text" name="usuario_nome" class="form-control" value="{{ $retorno['usuario']['nome'] ?? '' }}">
+            </div>
+            <div class="form-group">
+              <label>Usuario</label>
+              <input type="text" name="usuario_usuario" class="form-control" value="{{ $retorno['usuario']['usuario'] ?? '' }}">
+            </div>
+            <div class="form-group">
+              <label>Senha</label>
+              <input type="text" name="usuario_password" class="form-control" value="">
+            </div>
+
                 <div class="card-footer">
                   <button type="submit" class="btn btn-success">{{ $acao }}</button>
                 </div>

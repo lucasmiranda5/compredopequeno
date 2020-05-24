@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Painel;
 
 
 use Auth;
@@ -10,12 +10,16 @@ use App\Categorias;
 use App\CidadesEmpresas;
 use App\ContatosEmpresas;
 use App\Empresas;
+use App\Produtos;
 use DataTables;
 use Carbon\Carbon;
 use Request;
 
 class EmpresasCtrl extends Controller
 {
+    public function __construct(){
+        $this->middleware('authPainel');
+    }
     public function listar(){
         if(!empty(Request::input('columns'))){
             return DataTables::of(Empresas::query()->orderBy('id', 'desc'))
@@ -25,12 +29,13 @@ class EmpresasCtrl extends Controller
             ->editColumn('acoes',function($model){
                 return'
                  <div class="tools">                           
-                <a href="'.route('empresas::editar', $model->id).'"> <i class="fa fa-edit"></i></a>                  
-                <a href="'.route('empresas::excluir', $model->id).'"> <i class="fa fa-trash"></i></a>                  
+                <a href="'.route('painel::empresas::editar', $model->id).'"> <i class="fa fa-edit"></i></a>                  
+                <a href="'.route('painel::empresas::excluir', $model->id).'"> <i class="fa fa-trash"></i></a>                  
+                <a href="'.route('painel::produtos::listar', $model->id).'"> <i class="fa fa-boxes"></i></a>                  
                 </div>';
             })->escapeColumns('acoes')->make(true);
         }else
-    	return view('empresas.listar');
+    	return view('painel.empresas.listar');
     }
 
     public function cadastrar(){
@@ -84,15 +89,15 @@ class EmpresasCtrl extends Controller
                     $ob3->save();
                 }
             }
-            return redirect()->route('empresas::listar',['resposta'=>'sucesso_cadastro']);
+            return redirect()->route('painel::empresas::listar',['resposta'=>'sucesso_cadastro']);
         }
-        return view('empresas.formulario')->with('acao','Cadastrar')->with('cidades',Cidades::all())->with('categorias',Categorias::all());
+        return view('painel.empresas.formulario')->with('acao','Cadastrar')->with('cidades',Cidades::all())->with('categorias',Categorias::all());
     }
 
     public function editar($id){
         $ob = Empresas::find($id);
         if(!$ob)
-            return redirect()->route('empresas::listar');
+            return redirect()->route('painel::empresas::listar');
 
         if(Request::input('_token')){
             $ob['nome'] = Request::input('nome'); 
@@ -141,7 +146,7 @@ class EmpresasCtrl extends Controller
                 }
             }
 
-            return redirect()->route('empresas::editar',[$id,'resposta'=>'sucesso_editar']);
+            return redirect()->route('painel::empresas::editar',[$id,'resposta'=>'sucesso_editar']);
         }
 
         $contatos = [];
@@ -170,13 +175,14 @@ class EmpresasCtrl extends Controller
             $cidEmpresa[$c['id']] = $a;
         }
         
-        return view('empresas.formulario')->with('acao','Editar')->with('retorno',$ob)->with('cidades',Cidades::all())->with('categorias',Categorias::all())->with('contatos',$contatos)->with('cidEmpresa',$cidEmpresa);
+        return view('painel.empresas.formulario')->with('acao','Editar')->with('retorno',$ob)->with('cidades',Cidades::all())->with('categorias',Categorias::all())->with('contatos',$contatos)->with('cidEmpresa',$cidEmpresa);
     }
 
     public function excluir($id){
         ContatosEmpresas::where('empresa',$id)->delete();
+        Produtos::where('empresa',$id)->delete();
         CidadesEmpresas::where('empresa',$id)->delete();
         Empresas::where('id',$id)->delete();
-        return redirect()->route('empresas::listar',['resposta'=>'sucesso_excluir']);
+        return redirect()->route('painel::empresas::listar',['resposta'=>'sucesso_excluir']);
     }
 }

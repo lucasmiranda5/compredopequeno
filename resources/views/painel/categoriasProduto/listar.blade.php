@@ -1,19 +1,19 @@
 @extends('template.painel')
 @section('header')
-<title>Cidades</title>
+<title>Categorias de Produto</title>
 @endsection
 @section('conteudo')
 <section class="content-header">
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>Lista de Cidades <a href="{{ route('cidades::cadastrar') }}" class="btn btn-xs btn-success">Cadastrar</a></h1>
+            <h1>Lista de Categorias <a href="{{ route('painel::categoriasProduto::cadastrar') }}" class="btn btn-xs btn-success">Cadastrar</a></h1>
         </div>    
     </div>
 </div>
 </section>
 
-@include('msgs_listagem', ['palavra' => 'Cidade'])
+@include('msgs_listagem', ['palavra' => 'Categorias de produto'])
 
 
 <section class="content">
@@ -21,7 +21,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Cidades</h3>
+                  <h3 class="card-title">Categorias de produtos</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -66,7 +66,7 @@
                 },
                 "columns": [             
                     { "data": "id","name":"id"},
-                    { "data": "cidade","name":"cidade"},
+                    { "data": "nome","name":"nome"},
                     { "data": "acoes","name":"id" },                         
                 ]
             } );

@@ -17,24 +17,43 @@ Route::get('/',['as' => 'listar','uses' => 'SiteCtrl@listar']);
 Route::get('/emp/{id}',['as' => 'getEmpresa','uses' => 'SiteCtrl@empresa']);
 
 
- #tipos de servicos
- Route::group(['as' => 'categorias::','prefix' => "categorias"], function () {
-    Route::get('/',['as' => 'listar','uses' => 'CategoriasCtrl@listar']);
-    Route::match(array('GET', 'POST'),'/cadastrar', ['as' => 'cadastrar','uses' => 'CategoriasCtrl@cadastrar']);
-    Route::match(array('GET', 'POST'),'/editar/{id}', ['as' => 'editar','uses' => 'CategoriasCtrl@editar']);
-    Route::get('/excluir/{id}',['as' => 'excluir','uses' => 'CategoriasCtrl@excluir']);
- });
 
- Route::group(['as' => 'cidades::','prefix' => "cidades"], function () {
-    Route::get('/',['as' => 'listar','uses' => 'CidadesCtrl@listar']);
-    Route::match(array('GET', 'POST'),'/cadastrar', ['as' => 'cadastrar','uses' => 'CidadesCtrl@cadastrar']);
-    Route::match(array('GET', 'POST'),'/editar/{id}', ['as' => 'editar','uses' => 'CidadesCtrl@editar']);
-    Route::get('/excluir/{id}',['as' => 'excluir','uses' => 'CidadesCtrl@excluir']);
- });
+Route::group(['as' => 'painel::','prefix' => "painel"], function () {
+   Route::get('/',['as' => 'dashboard','uses' => 'Painel\DashboardCtrl@index']);
+   Route::match(['get', 'post'], '/login',['as' => 'login', 'uses' => 'Painel\LoginCtrl@login']);
+   #tipos de servicos
+   Route::group(['as' => 'categorias::','prefix' => "categorias"], function () {
+      Route::get('/',['as' => 'listar','uses' => 'Painel\CategoriasCtrl@listar']);
+      Route::match(array('GET', 'POST'),'/cadastrar', ['as' => 'cadastrar','uses' => 'Painel\CategoriasCtrl@cadastrar']);
+      Route::match(array('GET', 'POST'),'/editar/{id}', ['as' => 'editar','uses' => 'Painel\CategoriasCtrl@editar']);
+      Route::get('/excluir/{id}',['as' => 'excluir','uses' => 'Painel\CategoriasCtrl@excluir']);
+   });
 
- Route::group(['as' => 'empresas::','prefix' => "empresas"], function () {
-    Route::get('/',['as' => 'listar','uses' => 'EmpresasCtrl@listar']);
-    Route::match(array('GET', 'POST'),'/cadastrar', ['as' => 'cadastrar','uses' => 'EmpresasCtrl@cadastrar']);
-    Route::match(array('GET', 'POST'),'/editar/{id}', ['as' => 'editar','uses' => 'EmpresasCtrl@editar']);
-    Route::get('/excluir/{id}',['as' => 'excluir','uses' => 'EmpresasCtrl@excluir']);
- });
+   Route::group(['as' => 'categoriasProduto::','prefix' => "categoriasProduto"], function () {
+      Route::get('/',['as' => 'listar','uses' => 'Painel\CategoriaProdutoCtrl@listar']);
+      Route::match(array('GET', 'POST'),'/cadastrar', ['as' => 'cadastrar','uses' => 'Painel\CategoriaProdutoCtrl@cadastrar']);
+      Route::match(array('GET', 'POST'),'/editar/{id}', ['as' => 'editar','uses' => 'Painel\CategoriaProdutoCtrl@editar']);
+      Route::get('/excluir/{id}',['as' => 'excluir','uses' => 'Painel\CategoriaProdutoCtrl@excluir']);
+   });
+
+   Route::group(['as' => 'cidades::','prefix' => "cidades"], function () {
+      Route::get('/',['as' => 'listar','uses' => 'Painel\CidadesCtrl@listar']);
+      Route::match(array('GET', 'POST'),'/cadastrar', ['as' => 'cadastrar','uses' => 'Painel\CidadesCtrl@cadastrar']);
+      Route::match(array('GET', 'POST'),'/editar/{id}', ['as' => 'editar','uses' => 'Painel\CidadesCtrl@editar']);
+      Route::get('/excluir/{id}',['as' => 'excluir','uses' => 'Painel\CidadesCtrl@excluir']);
+   });
+
+   Route::group(['as' => 'empresas::','prefix' => "empresas"], function () {
+      Route::get('/',['as' => 'listar','uses' => 'Painel\EmpresasCtrl@listar']);
+      Route::match(array('GET', 'POST'),'/cadastrar', ['as' => 'cadastrar','uses' => 'Painel\EmpresasCtrl@cadastrar']);
+      Route::match(array('GET', 'POST'),'/editar/{id}', ['as' => 'editar','uses' => 'Painel\EmpresasCtrl@editar']);
+      Route::get('/excluir/{id}',['as' => 'excluir','uses' => 'Painel\EmpresasCtrl@excluir']);
+   });
+
+   Route::group(['as' => 'produtos::','prefix' => "produtos"], function () {
+      Route::get('/{id}',['as' => 'listar','uses' => 'Painel\ProdutosCtrl@listar']);
+      Route::match(array('GET', 'POST'),'/cadastrar/{id}', ['as' => 'cadastrar','uses' => 'Painel\ProdutosCtrl@cadastrar']);
+      Route::match(array('GET', 'POST'),'/editar/{id}', ['as' => 'editar','uses' => 'Painel\ProdutosCtrl@editar']);
+      Route::get('/excluir/{id}',['as' => 'excluir','uses' => 'Painel\ProdutosCtrl@excluir']);
+   });
+});

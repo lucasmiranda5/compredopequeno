@@ -1,19 +1,19 @@
 @extends('template.painel')
 @section('header')
-<title>Categorias</title>
+<title>Empresas</title>
 @endsection
 @section('conteudo')
 <section class="content-header">
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>Lista de Categorias <a href="{{ route('categorias::cadastrar') }}" class="btn btn-xs btn-success">Cadastrar</a></h1>
+            <h1>Lista de Empresas <a href="{{ route('painel::empresas::cadastrar') }}" class="btn btn-xs btn-success">Cadastrar</a></h1>
         </div>    
     </div>
 </div>
 </section>
 
-@include('msgs_listagem', ['palavra' => 'Categorias'])
+@include('msgs_listagem', ['palavra' => 'Empresa'])
 
 
 <section class="content">
@@ -21,7 +21,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Categorias</h3>
+                  <h3 class="card-title">Empresas</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -30,6 +30,7 @@
                     <tr>
                       <th>ID</th>
                       <th>Nome</th>
+                      <th>Categoria</th>
                       <th>Ações</th>
                     </tr>
                     </thead>
@@ -39,6 +40,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Nome</th>
+                        <th>Categoria</th>
                         <th>Ações</th>
                     </tr>
                     </tfoot>
@@ -67,6 +69,7 @@
                 "columns": [             
                     { "data": "id","name":"id"},
                     { "data": "nome","name":"nome"},
+                    { "data": "categoria","name":"categoria"},
                     { "data": "acoes","name":"id" },                         
                 ]
             } );
