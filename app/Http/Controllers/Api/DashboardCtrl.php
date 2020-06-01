@@ -14,7 +14,7 @@ class DashboardCtrl extends Controller
     public function index(){
         $retorno = [];
         $retorno['categorias'] = Categorias::inRandomOrder()->limit(5)->get()->transform(function($item){
-            $item['quantidadeEmpresas'] = Empresas::where('categoria',$item['id'])->count();
+            $item['quantidadeEmpresas'] = Empresas::where('ativo','s')->where('categoria',$item['id'])->count();
             return $item;
         });
         $retorno['ultimosProdutos'] = Produtos::orderBy('id','DESC')->limit(6)->get()->transform(function($item){
@@ -25,7 +25,7 @@ class DashboardCtrl extends Controller
                 $item['foto'] = App::make('url')->to('/').'/uploads/semfoto.jpg';
             return $item;
         });
-        $retorno['ultimasEmpresas'] = Empresas::orderBy('id','DESC')->limit(6)->get()->transform(function($item){
+        $retorno['ultimasEmpresas'] = Empresas::where('ativo','s')->orderBy('id','DESC')->limit(6)->get()->transform(function($item){
             $item['nomeCategoria'] = Categorias::find($item['categoria'])['nome'];
             if($item['marca'] != '')
                 $item['marca'] = App::make('url')->to('/').'/uploads/'.$item['marca'];
@@ -39,11 +39,12 @@ class DashboardCtrl extends Controller
     public function pesquisar(){
         $search = Request::input('search') ?? '';
 
-        $limit_empresa = Request::input('limit_empresa') ?? 2;
+        $limit_empresa = Request::input('limit_empresa') ?? 10;
         $page_empresa = Request::input('page_empresa') ?? 1; 
-        $retorno_empresa = Empresas::orderBy('nome','ASC');
+        $retorno_empresa = Empresas::where('ativo','s')->orderBy('nome','ASC');
+        $categoriasLike = Categorias::select('id')->where('nome','like','%'.$search.'%')->get();
         if($search != '')
-            $retorno_empresa = $retorno_empresa->where('nome','like','%'.$search.'%')->orWhere('descricao','like','%'.$search.'%');
+            $retorno_empresa = $retorno_empresa->where('nome','like','%'.$search.'%')->orWhere('descricao','like','%'.$search.'%')->orWhereIn('categoria',$categoriasLike->toArray());
         
         
         $arr = [];       

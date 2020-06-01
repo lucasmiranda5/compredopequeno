@@ -122,6 +122,14 @@
               <input type="text" name="usuario_password" class="form-control" value="">
             </div>
 
+            <div class="form-group">
+              <label>Empresa Ativa</label>
+              <select class="form-control" name="ativo">
+                <option value="s" {{ ( ($acao == 'Editar' and $retorno['ativo'] == "s") ? 'selected' : '') }}>Sim</option>
+                <option value="n" {{ ( ($acao == 'Editar' and $retorno['ativo'] == "n") ? 'selected' : '') }}>Não</option>
+              </select>
+            </div>
+
                 <div class="card-footer">
                   <button type="submit" class="btn btn-success">{{ $acao }}</button>
                 </div>

@@ -17,12 +17,13 @@ Route::get('/pesquisa',['as' => 'api::dasboard','uses' => 'Api\DashboardCtrl@pes
    //Grade
 Route::group(['as'=>'categorias::','prefix' => 'categorias'], function () {
     Route::get('/',['as'=>'listar' , 'uses'=> 'Api\CategoriasCtrl@listar' ]);
-    Route::get('/{id}',['as'=>'get' , 'uses'=> 'Api\CategoriasCtrl@get' ]); 
+    Route::get('/get',['as'=>'get' , 'uses'=> 'Api\CategoriasCtrl@get' ]); 
 });
 
 Route::group(['as'=>'empresas::','prefix' => 'empresas'], function () {
     Route::get('/',['as'=>'listar' , 'uses'=> 'Api\EmpresasCtrl@listar' ]);
     Route::get('/{id}',['as'=>'get' , 'uses'=> 'Api\EmpresasCtrl@get' ]); 
+    Route::post('/',['as'=>'cadastrar' , 'uses'=> 'Api\EmpresasCtrl@cadastrar' ]); 
 });
 
 Route::group(['as'=>'produtos::','prefix' => 'produtos'], function () {

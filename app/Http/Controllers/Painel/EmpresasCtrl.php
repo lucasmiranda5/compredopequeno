@@ -42,6 +42,7 @@ class EmpresasCtrl extends Controller
         if(Request::input('_token')){
             $ob = new Empresas();
             $ob['nome'] = Request::input('nome'); 
+            $ob['ativo'] = Request::input('ativo'); 
             $ob['categoria'] = Request::input('categoria'); 
             $ob['descricao'] = Request::input('descricao'); 
             $ob['horario_funcionamento'] = Request::input('horario_funcionamento'); 
@@ -101,6 +102,7 @@ class EmpresasCtrl extends Controller
 
         if(Request::input('_token')){
             $ob['nome'] = Request::input('nome'); 
+            $ob['ativo'] = Request::input('ativo'); 
             $ob['categoria'] = Request::input('categoria'); 
             $ob['descricao'] = Request::input('descricao'); 
             $ob['horario_funcionamento'] = Request::input('horario_funcionamento'); 

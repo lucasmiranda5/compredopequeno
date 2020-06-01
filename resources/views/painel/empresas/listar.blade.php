@@ -31,6 +31,7 @@
                       <th>ID</th>
                       <th>Nome</th>
                       <th>Categoria</th>
+                      <th>Ativo</th>
                       <th>Ações</th>
                     </tr>
                     </thead>
@@ -41,6 +42,7 @@
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Categoria</th>
+                        <th>Ativo</th>
                         <th>Ações</th>
                     </tr>
                     </tfoot>
@@ -70,6 +72,7 @@
                     { "data": "id","name":"id"},
                     { "data": "nome","name":"nome"},
                     { "data": "categoria","name":"categoria"},
+                    { "data": "ativo","name":"ativo"},
                     { "data": "acoes","name":"id" },                         
                 ]
             } );

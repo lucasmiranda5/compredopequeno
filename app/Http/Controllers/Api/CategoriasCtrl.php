@@ -37,4 +37,8 @@ class CategoriasCtrl extends Controller
         }
         return $arr;
     }
+
+    public function get(){
+        return Categorias::all();
+    }
 }

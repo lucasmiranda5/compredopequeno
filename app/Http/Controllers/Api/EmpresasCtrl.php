@@ -10,6 +10,7 @@ use App\Categorias;
 use App\ContatosEmpresas;
 use App\CategoriaProduto;
 use App;
+use Carbon\Carbon;
 class EmpresasCtrl extends Controller
 {
     public function listar(){
@@ -18,7 +19,7 @@ class EmpresasCtrl extends Controller
         $search = Request::input('search') ?? '';
         $categoria = Request::input('categoria') ?? '';
 
-        $retorno = Empresas::orderBy('nome','ASC');
+        $retorno = Empresas::where('ativo','s')->orderBy('nome','ASC');
         if($search != '')
             $retorno = $retorno->where('nome','like','%'.$search.'%');
         
@@ -51,6 +52,7 @@ class EmpresasCtrl extends Controller
         return $arr;
     }
 
+
     public function get($id){
         $empresa = Empresas::find($id);
         $empresa['contatos'] = ContatosEmpresas::where('empresa',$id)->get();
@@ -68,5 +70,40 @@ class EmpresasCtrl extends Controller
         else
             $empresa['marca'] = App::make('url')->to('/').'/uploads/semfoto.jpg';
         return $empresa;
+    }
+
+    public function cadastrar(){
+        $ob = new Empresas();
+        $ob['ativo'] = 'n';
+        $ob['nome'] = Request::input('nome'); 
+        $ob['categoria'] = Request::input('categoria'); 
+        $ob['descricao'] = Request::input('descricao'); 
+        $ob['horario_funcionamento'] = Request::input('horario_funcionamento'); 
+        $ob['nome_responsavel'] = Request::input('nome_responsavel'); 
+        $ob['telefone_responsavel'] = Request::input('telefone_responsavel'); 
+        if(Request::input('image') != '' and Request::input('name_image') != ''){
+            $realImage = base64_decode(Request::input('image'));              
+            $timestamp = str_replace([' ', ':'], '-', Carbon::now()->toDateTimeString());
+            $name = $timestamp. '-' .Request::input('name_image');
+            file_put_contents(base_path().'/uploads/'.$name,$realImage);
+            $ob['marca'] = $name;
+        }else
+            $ob['marca'] = '';
+        $ob->save();
+        $contatos = json_decode(Request::input('contatos'),true);
+        foreach($contatos as $contato){
+            if($contato[1] != ''){
+                $ob2 = new ContatosEmpresas();
+                $ob2['tipo'] = $contato[0];
+                $ob2['escrita'] = $contato[1];
+                $ob2['direcionamento'] = $contato[1];
+                $ob2['empresa'] = $ob['id'];
+                $ob2->save();
+            }
+        }
+
+        return ['retorno' => true];
+
+
     }
 }
