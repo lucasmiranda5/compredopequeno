@@ -80,9 +80,9 @@ class SiteCtrl extends Controller
        foreach($categorias as $key => $cat){
            $categorias[$key]['quantidade'] = Empresas::where('categoria',$cat['id'])->count();
            if(Request::input('pesquisa') != ''){
-           $empresas = Empresas::where('nome','like','%'.$p.'%')->orWhere('descricao','like','%'.$p.'%')->where('categoria',$cat['id'])->get();
+           $empresas = Empresas::where('nome','like','%'.$p.'%')->orWhere('descricao','like','%'.$p.'%')->where('categoria',$cat['id'])->where('ativo','s')->get();
            }else{
-            $empresas = Empresas::where('categoria',$cat['id'])->get();
+            $empresas = Empresas::where('categoria',$cat['id'])->where('ativo','s')->get();
            }
            foreach($empresas as $key2 => $emp){
                $contatos = [];
