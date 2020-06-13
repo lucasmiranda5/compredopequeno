@@ -26,7 +26,7 @@
                     <input type="text" name="nome" class="form-control" value="{{ $retorno['nome'] ?? '' }}">
                   </div>
                   <div class="form-group">
-                    <label>Categoria <small>Caso não tenha a categoria do seu produto por favor mande a categoria desejada para (38) 99141-4228 - Lucas Miranda</small></label>
+                    <label>Categoria <small>Caso não tenha a categoria do seu produto por favor mande a categoria desejada para (38) 99269-9192 - Lucas Miranda</small></label>
                     <select class="form-control" required name="categoria">
                       <option value="">--Selecione uma opção--</option>
                       @foreach($categorias as $categoria)
