@@ -11,6 +11,7 @@ use App\CidadesEmpresas;
 use App\ContatosEmpresas;
 use App\Empresas;
 use App\Produtos;
+use App\Usuario;
 use DataTables;
 use Carbon\Carbon;
 use Request;
@@ -74,22 +75,21 @@ class EmpresasCtrl extends Controller
                 }
             }
 
-            $atende = Request::input('atende');
-            $entrega = Request::input('entrega');
-            $tx = Request::input('tx');
-            foreach(Cidades::all() as $cidade){
-                if(!empty($atende[$cidade['id']]) and $atende[$cidade['id']] == 'S'){
-                    $ob3 = new CidadesEmpresas();
-                    $ob3['empresa'] = $ob['id'];
-                    $ob3['cidade'] = $cidade['id'];
-                    if(!empty($entrega[$cidade['id']]) and $entrega[$cidade['id']] == 'S')
-                        $ob3['entrega'] = 'S';
-                    else
-                        $ob3['entrega'] = 'N';
-                    $ob3['taxa_entrega'] = $tx[$cidade['id']];
-                    $ob3->save();
+            if(Request::input('usuario_usuario') != ''){
+                if(Usuario::where('usuario',Request::input('usuario_usuario'))->count() > 0){
+                    return redirect()->route('painel::empresas::editar',[$ob['id'],'resposta'=>'error_usuario']);
+                }else{
+                 
+                    $user = new Usuario();
+                    $user['nome'] = Request::input('usuario_nome');
+                    $user['usuario'] = Request::input('usuario_usuario');
+                    $user['password'] =  bcrypt(Request::input('usuario_password'));
+                    $user['tipo'] = 'user';
+                    $user['empresa'] = $ob['id'];
+                    $user->save();
                 }
             }
+            
             return redirect()->route('painel::empresas::listar',['resposta'=>'sucesso_cadastro']);
         }
         return view('painel.empresas.formulario')->with('acao','Cadastrar')->with('cidades',Cidades::all())->with('categorias',Categorias::all());
@@ -130,23 +130,30 @@ class EmpresasCtrl extends Controller
                     $ob2->save();
                 }
             }
-            CidadesEmpresas::where('empresa',$id)->delete();
-            $atende = Request::input('atende');
-            $entrega = Request::input('entrega');
-            $tx = Request::input('tx');
-            foreach(Cidades::all() as $cidade){
-                if(!empty($atende[$cidade['id']]) and $atende[$cidade['id']] == 'S'){
-                    $ob3 = new CidadesEmpresas();
-                    $ob3['empresa'] = $ob['id'];
-                    $ob3['cidade'] = $cidade['id'];
-                    if(!empty($entrega[$cidade['id']]) and $entrega[$cidade['id']] == 'S')
-                        $ob3['entrega'] = 'S';
-                    else
-                        $ob3['entrega'] = 'N';
-                    $ob3['taxa_entrega'] = $tx[$cidade['id']];
-                    $ob3->save();
+           
+            if(Request::input('usuario_usuario') != ''){
+                if(Usuario::where('usuario',Request::input('usuario_usuario'))->where('empresa','<>',$id)->count() > 0){
+                    return redirect()->route('painel::empresas::editar',[$id,'resposta'=>'error_usuario']);
+                }else{
+                    if(Usuario::where('empresa',$id)->count() > 0){
+                        $user = Usuario::where('empresa',$id)->first();
+                        if(Request::input('usuario_password') != '')
+                            $user['password'] =  bcrypt(Request::input('usuario_password'));
+                    }else{
+                        $user = new Usuario();
+                        $user['password'] =  bcrypt(Request::input('usuario_password'));
+                    }
+
+                    $user['nome'] = Request::input('usuario_nome');
+                    $user['usuario'] = Request::input('usuario_usuario');                    
+                    $user['tipo'] = 'user';
+                    $user['empresa'] = $id;
+                    $user->save();
                 }
+            }else{
+                Usuario::where('empresa',$id)->delete();
             }
+
 
             return redirect()->route('painel::empresas::editar',[$id,'resposta'=>'sucesso_editar']);
         }
@@ -161,30 +168,20 @@ class EmpresasCtrl extends Controller
             $contatos[$x] = $a;
             $x++;
         }
-        $cidEmpresa = [];
-        foreach(Cidades::all() as $c){
-            $a = [];
-            if(CidadesEmpresas::where('cidade',$c['id'])->where('empresa',$id)->count() > 0){
-                $b = CidadesEmpresas::where('cidade',$c['id'])->where('empresa',$id)->first();                
-                $a['atende'] = 'S';
-                $a['entrega'] = strtoupper($b['entrega']);
-                $a['tx'] = $b['taxa_entrega'];                
-            }else{
-                $a['atende'] = 'N';
-                $a['entrega'] = 'N';
-                $a['tx'] = '';
-            }
-            $cidEmpresa[$c['id']] = $a;
-        }
+      
+        $ob['usuario'] = Usuario::where('empresa',$id)->first();
         
-        return view('painel.empresas.formulario')->with('acao','Editar')->with('retorno',$ob)->with('cidades',Cidades::all())->with('categorias',Categorias::all())->with('contatos',$contatos)->with('cidEmpresa',$cidEmpresa);
+        return view('painel.empresas.formulario')->with('acao','Editar')->with('retorno',$ob)->with('cidades',Cidades::all())->with('categorias',Categorias::all())->with('contatos',$contatos);
     }
 
     public function excluir($id){
         ContatosEmpresas::where('empresa',$id)->delete();
         Produtos::where('empresa',$id)->delete();
         CidadesEmpresas::where('empresa',$id)->delete();
+        Usuario::where('empresa',$id)->delete();
+        
         Empresas::where('id',$id)->delete();
+
         return redirect()->route('painel::empresas::listar',['resposta'=>'sucesso_excluir']);
     }
 }

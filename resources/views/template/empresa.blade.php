@@ -37,8 +37,9 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ route('painel::dashboard') }}" class="brand-link">     
-      <span class="brand-text font-weight-light">Compre do Pequeno</span>
+    <a href="{{ route('empresas::dashboard') }}" class="brand-link">     
+      <span class="brand-text font-weight-light">Compre do Pequeno</span><br>
+      Painel Empresa
     </a>
 
     <!-- Sidebar -->
@@ -53,56 +54,37 @@
                with font-awesome or any other icon font library -->
          
                <li class="nav-item">
-                <a href="{{ route('painel::dashboard') }}" class="nav-link">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
-                  <p>
-                    Dashboard
-                  </p>
-                </a>
-              </li>
-
-
-               <li class="nav-item">
-                <a href="{{ route('painel::categorias::listar') }}" class="nav-link">
-                  <i class="nav-icon fas fa-copy"></i>
-                  <p>
-                    Categorias
-                  </p>
-                </a>
-              </li>             
-
-              <li class="nav-item">
-                <a href="{{ route('painel::empresas::listar') }}" class="nav-link">
+                <a href="{{ route('empresas::dashboard') }}" class="nav-link">
                   <i class="nav-icon fas fa-store"></i>
                   <p>
-                    Empresas
+                    Minha Empresa
                   </p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{{ route('painel::categoriasProduto::listar') }}" class="nav-link">
+                <a href="{{ route('empresas::produtos::listar') }}" class="nav-link">
                   <i class="nav-icon fas fa-boxes"></i>
                   <p>
-                    Categorias de Produto
+                    Meus Produtos
                   </p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{{ route('painel::usuarios::listar') }}" class="nav-link">
-                  <i class="nav-icon fas fa-users"></i>
+                <a href="{{ route('empresas::perfil') }}" class="nav-link">
+                  <i class="nav-icon fas fa-user"></i>
                   <p>
-                    Usuarios Painel
+                    Perfil
                   </p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{{ route('painel::sair') }}" class="nav-link">
+                <a href="{{ route('empresas::sair') }}" class="nav-link">
                   <i class="nav-icon fas fa-sign-out-alt"></i>
                   <p>
-                    Sair
+                   Sair 
                   </p>
                 </a>
               </li>

@@ -30,6 +30,13 @@
             </div>
             @endif
 
+            @if(\Request::input('resposta') == 'error_usuario')
+            <div class="alert alert-danger alert-dismissible">
+                <h5><i class="icon fas fa-ban"></i> Erro!</h5>
+                Já existe um outro usuario com esse nome de usuario por favor escolha outro.
+            </div>
+            @endif
+
             
    
     </div>

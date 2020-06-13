@@ -1,4 +1,4 @@
-@extends('template.painel')
+@extends('template.empresa')
 @section('header')
 <title>{{ $acao }} Empresa</title>
 @endsection
@@ -84,6 +84,7 @@
                     </div>
                 </div>
                 @endfor
+
             <div class="form-group">
               <label>Nome do Responsavel</label>
               <input type="text" name="nome_responsavel" class="form-control" value="{{ $retorno['nome_responsavel'] ?? '' }}">
@@ -92,28 +93,10 @@
               <label>Telefone do Responsavel</label>
               <input type="text" name="telefone_responsavel" class="form-control" value="{{ $retorno['telefone_responsavel'] ?? '' }}">
             </div>
-            <h3>Usuarios para acessar o painel</h3>
             <div class="form-group">
-              <label>Nome da Pessoa</label>
-              <input type="text" name="usuario_nome" class="form-control" value="{{ $retorno['usuario']['nome'] ?? '' }}">
-            </div>
-            <div class="form-group">
-              <label>Usuario</label>
-              <input type="text" name="usuario_usuario" class="form-control" value="{{ $retorno['usuario']['usuario'] ?? '' }}">
-            </div>
-            <div class="form-group">
-              <label>Senha</label>
-              <input type="password" name="usuario_password" class="form-control" value="">
-            </div>
-
-            <div class="form-group">
-              <label>Empresa Ativa</label>
-              <select class="form-control" name="ativo">
-                <option value="s" {{ ( ($acao == 'Editar' and $retorno['ativo'] == "s") ? 'selected' : '') }}>Sim</option>
-                <option value="n" {{ ( ($acao == 'Editar' and $retorno['ativo'] == "n") ? 'selected' : '') }}>Não</option>
-              </select>
-            </div>
-
+                <label>Status</label><br>
+                {{ ($retorno['ativo'] == 's' ? 'Ativo' : 'Ainda não ativado - Nossa equipe irá válidar as informações e ativar na plataforma.') }}
+              </div>
                 <div class="card-footer">
                   <button type="submit" class="btn btn-success">{{ $acao }}</button>
                 </div>
