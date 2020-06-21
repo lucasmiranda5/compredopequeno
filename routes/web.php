@@ -68,7 +68,7 @@ Route::group(['as' => 'painel::','prefix' => "painel"], function () {
 
 
 Route::group(['as' => 'empresas::','prefix' => "empresas"], function () {
-   Route::get('/',['as' => 'dashboard','uses' => 'Empresas\EmpresasCtrl@editar']);
+   Route::match(['get', 'post'], '/',['as' => 'dashboard', 'uses' => 'Empresas\EmpresasCtrl@editar']);
    Route::get('/sair',['as' => 'sair','uses' => 'Empresas\PerfilCtrl@sair']);
    Route::match(['get', 'post'], '/login',['as' => 'login', 'uses' => 'Empresas\LoginCtrl@login']);
    Route::match(['get', 'post'], '/perfil',['as' => 'perfil', 'uses' => 'Empresas\PerfilCtrl@editar']);
