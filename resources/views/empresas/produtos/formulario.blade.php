@@ -6,8 +6,8 @@
 <section class="content-header">
 <div class="container-fluid">
     <div class="row mb-2">
-        <div class="col-sm-6">Produto
-            <h1>{{ $acao }} Empresa </h1>
+        <div class="col-sm-6">
+            <h1>{{ $acao }} Produto </h1>
         </div>    
     </div>
 </div>
